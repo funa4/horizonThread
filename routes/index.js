@@ -17,9 +17,9 @@ exports.login = function(db,req,res){
 	//var ScheduleAdjust = schema.ScheduleAdjust(db);
 	schema.ScheduleAdjust(db);
 	console.log("connect start" );
-
-	var ScheduleAdjust = db.connectDB().model("ScheduleAdjust");
-	console.log("connect end" );
+	var connection = db.connectDB()
+	var ScheduleAdjust = connection.model("ScheduleAdjust");
+	console.log("connect end " + connection.readyState);
 	
 	//find schedule
 	ScheduleAdjust.findOne({id:req.body.login.id},
