@@ -17,7 +17,7 @@ var port = process.env.PORT || 3000; //for heroku
  	console.log("db connec by " + db_uri);
  	if(this.connections[0].readyState == 2){//connecting now
  		console.log("connecting is alive. disclose now ... ");
- 		db.disconnect();
+ 		this.disconnect();
  	}
 	this.connect(db_uri,
 		function(err){
