@@ -1,0 +1,38 @@
+append head
+title="Voting to Schedule"
+
+body
+b Voting to Schedule
+
+p list of schedule voting and schedule delete is by get method by ajax
+
+<br/>
+
+label Your name :
+ input#name(type='text')
+
+<br/><br/>
+
+table(border=1,width=300)
+ thead
+  tr
+   th Date
+   th Voters
+   th Command
+ tbody
+  tr
+   td 
+    a(href="#",onclick="deleteDate()") 2012/01/01
+   td kubo(ok)
+   td 
+    button(onclick="voteAdd") Vote!
+    button(onclick="voteCancel") Cancel
+      
+<br/><br/>
+p add new date ( maybe also by ajax post ... )
+  
+form#form(action='/recommend',method='POST')
+  input#sDate(type='text', name="schedule[sDate]" , placeholder='yyyyMMdd')
+  input#sTime(type='text', name="schedule[sTime]" , placeholder='hhmmss')
+  input(type='submit', value='日程追加')
+  

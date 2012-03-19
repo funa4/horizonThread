@@ -5,11 +5,26 @@
 
 //install required library
 var express = require('express')
-  , routes = require('./routes');
+  , routes = require('./routes')
+  , mongoose = require('mongoose');
+
+//global config variant
+var db_uri = process.env.MONGOHQ_URL || 'mongodb://horizon:dearth@localhost/horizonThread';
+var port = process.env.PORT || 3000; //for heroku
+
+ 
+ //extends connect function
+ mongoose.connectDB = function(){
+	this.connect(db_uri,
+		function(err){
+			if(err){
+				console.log("db connection error on " || process.env.HOST || "localhost"); throw err;
+			}
+		}
+)}
 
 //create server
 var app = module.exports = express.createServer();
-var port = process.env.PORT || 3000; //for heroku
 
 
 // Configuration
@@ -33,6 +48,12 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.post('/login', function(req, res){ routes.login(mongoose,req,res) });
+
+app.get('/ping',function(req, res){
+	res.contentType('application/json');
+	res.send({res:"connected"});
+})
 
 //invoke server
 //db.addUser('horizon','dearth')

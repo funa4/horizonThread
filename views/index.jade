@@ -1,7 +1,11 @@
-h1= title
-p Welcome to #{title}
+append head
+title="Schedule Adjust"
+script(type='text/javascript', src='javascripts/ping.js')
 
-form#form(onsubmit='send(); return false;')
-  input#name(type='text', placeholder='Twitter ID')
-  input#text(type='text', autocomplete='off')
-  input(type='submit', value='送信')
+body
+b Schedule Adjust
+
+form#form(action='/login',method='POST')
+  input#id(type='text', name="login[id]" , placeholder='alpha numeric')
+  input#name(type='text', name="login[name]", autocomplete='off')
+  input(type='submit', value='作成')
