@@ -9,22 +9,19 @@ var express = require('express')
   , mongoose = require('mongoose');
 
 //global config variant
-var db_uri = process.env.MONGOLAB_URI || 'mongodb://horizon:dearth@localhost/horizonThread';
+var db_uri = process.env.MONGOLAB_URI || 'mongodb://heroku_app3362615:t0i3pv7kgrvcqvbliigat21pkb@ds029847.mongolab.com:29847/heroku_app3362615'; //'mongodb://horizon:dearth@localhost/horizonThread';
 var port = process.env.PORT || 3000; //for heroku
 
  //extends connect function
- mongoose.connectDB = function(callback){
+ mongoose.connectDB = function(){
  	console.log("db connec by " + db_uri);
  	if(this.connections[0].readyState == 2){//connecting now
  		console.log("connecting is alive. ");
- 		callback();
  	}else{
 		this.connect(db_uri,
 			function(err){
 				if(err){
 					console.log("db connection error on " + db_uri); throw err;
-				}else{
-					callback();
 				}
 			}
 		)
@@ -63,6 +60,5 @@ app.get('/ping',function(req, res){
 })
 
 //invoke server
-//db.addUser('horizon','dearth')
 app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
