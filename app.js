@@ -50,7 +50,9 @@ app.configure('production', function(){
 app.get('/', routes.index);
 app.post('/login', function(req, res){ 
 		//routes.login(mongoose,req,res) 
-		res.render('vote')
+		mongoose.connect(db_uri,function(err){
+			res.render('vote')		
+		})
 	});
 
 app.get('/ping',function(req, res){
