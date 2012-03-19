@@ -15,6 +15,7 @@ exports.login = function(db,req,res){
 	var ScheduleAdjust = schema.ScheduleAdjust(db);
 	
 	//find schedule
+	/*
 	ScheduleAdjust.findOne({id:req.body.login.id},
 		function(err,obj){
 			console.log("find object is " + obj );
@@ -33,5 +34,6 @@ exports.login = function(db,req,res){
 			}
 			
 		});
-	
+		*/
+	res.render('vote', { title: 'Schedule Voting', schedule:obj})	
 }
