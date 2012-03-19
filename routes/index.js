@@ -35,5 +35,5 @@ exports.login = function(db,req,res){
 			
 		});
 		*/
-	res.render('vote', { title: 'Schedule Voting', schedule:obj})	
+	res.render('vote', { title: 'Schedule Voting'})	
 }
