@@ -51,7 +51,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.post('/login', function(req, res){ routes.login(mongoose.connectDB(),req,res) });
+app.post('/login', function(req, res){ routes.login(mongoose,req,res) });
 
 app.get('/ping',function(req, res){
 	res.contentType('application/json');

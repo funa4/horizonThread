@@ -4,10 +4,10 @@
 
 exports.ScheduleAdjust = function(mg_connected){
 
-var Schema = mg_connected.Schema,ObjectId = Schema.ObjectId;
+var Schema = mg_connected.Schema //,ObjectId = Schema.ObjectId;
 
 var Vote = new Schema({
-	voter:ObjectId,
+	name:String,
 	status:String,
 	comment:String	
 })
