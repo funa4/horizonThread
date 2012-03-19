@@ -9,17 +9,18 @@ var express = require('express')
   , mongoose = require('mongoose');
 
 //global config variant
-//var db_uri = process.env.MONGOHQ_URL || 'mongodb://horizon:dearth@localhost/horizonThread';
+var db_uri = process.env.MONGOHQ_URL || 'mongodb://horizon:dearth@localhost/horizonThread';
 var port = process.env.PORT || 3000; //for heroku
 
  //extends connect function
  mongoose.connectDB = function(){
-	var db_uri = process.env.MONGOHQ_URL || 'mongodb://horizon:dearth@localhost/horizonThread';
- 	console.log("db connection in heroku is " || db_uri );
+ 	console.log("db connection in heroku is ... " || db_uri );
 	this.connect(db_uri,
 		function(err){
 			if(err){
 				console.log("db connection error on " || db_uri); throw err;
+			}else{
+				console.log("connect success! ");				
 			}
 		}
 )}
