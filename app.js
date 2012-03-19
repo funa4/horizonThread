@@ -15,11 +15,11 @@ var port = process.env.PORT || 3000; //for heroku
  
  //extends connect function
  mongoose.connectDB = function(){
- 	console.log("db connection in heroku is " || process.env.HOST );
+ 	console.log("db connection in heroku is " || db_uri );
 	this.connect(db_uri,
 		function(err){
 			if(err){
-				console.log("db connection error on " || process.env.HOST || "localhost"); throw err;
+				console.log("db connection error on " || db_uri); throw err;
 			}
 		}
 )}
