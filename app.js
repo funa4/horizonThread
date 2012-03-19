@@ -9,7 +9,7 @@ var express = require('express')
   , mongoose = require('mongoose');
 
 //global config variant
-var db_uri = process.env.MONGOHQ_URL;
+var db_uri = 'mongodb://heroku:a076b778be059d9629908609d4ee6f1e@staff.mongohq.com:10004/app3362615' //process.env.MONGOHQ_URL;
 var port = process.env.PORT || 3000; //for heroku
 
  //extends connect function
