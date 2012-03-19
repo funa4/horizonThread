@@ -50,7 +50,7 @@ app.configure('production', function(){
 app.get('/', routes.index);
 app.post('/login', function(req, res){ 
 		//routes.login(mongoose,req,res) 
-		routes.vote(req,res);
+		res.render('vote')
 	});
 
 app.get('/ping',function(req, res){
