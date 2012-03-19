@@ -3,14 +3,16 @@
  * Module dependencies.
  */
 
+//install required library
 var express = require('express')
   , routes = require('./routes');
 
+//create server
 var app = module.exports = express.createServer();
 var port = process.env.PORT || 3000; //for heroku
 
-// Configuration
 
+// Configuration
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -32,5 +34,7 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 
+//invoke server
+//db.addUser('horizon','dearth')
 app.listen(port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

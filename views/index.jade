@@ -1,2 +1,7 @@
 h1= title
 p Welcome to #{title}
+
+form#form(onsubmit='send(); return false;')
+  input#name(type='text', placeholder='Twitter ID')
+  input#text(type='text', autocomplete='off')
+  input(type='submit', value='送信')
