@@ -50,6 +50,8 @@ app.configure('production', function(){
 app.get('/', routes.index);
 app.post('/login', function(req, res){ 
 		//routes.login(mongoose,req,res) 
+		var db = mongoose.createConnection(db_uri)
+		console.log("connect object" + db + " state = " + db.readyState);
 		mongoose.connect(db_uri,function(err){
 			res.render('vote')		
 		})
