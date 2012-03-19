@@ -27,9 +27,11 @@ exports.login = function(db,req,res){
 				schedule.name = req.body.login.name;
 				
 				schedule.save(function(err){
+					db.disconnect();
 					res.render('vote', { title: 'Schedule Voting' , schedule:schedule});				
 				});
 			}else{				
+				db.disconnect();
 				res.render('vote', { title: 'Schedule Voting', schedule:obj})		
 			}
 			
