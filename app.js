@@ -15,6 +15,10 @@ var port = process.env.PORT || 3000; //for heroku
  //extends connect function
  mongoose.connectDB = function(){
  	console.log("db connec by " + db_uri);
+ 	if(db.connections[0].readyState == 2){//connecting now
+ 		console.log("connecting is alive. disclose now ... ");
+ 		db.disconnect();
+ 	}
 	this.connect(db_uri,
 		function(err){
 			if(err){
