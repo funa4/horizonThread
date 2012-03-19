@@ -3,7 +3,7 @@
   , "version": "0.0.2"
   , "dependencies": {
       "express": "2.5.8"
-    , "jade": ">= 0.0.1"
+    , "jade": "0.21.0"
     , "mongoose": "2.5.11"
   }
 }
