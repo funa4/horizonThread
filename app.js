@@ -15,7 +15,7 @@ var port = process.env.PORT || 3000; //for heroku
  //extends connect function
  mongoose.connectDB = function(){
  	console.log("db connec by " + db_uri);
- 	mongoose.connection = mongoose.createConnection(db_uri)
+ 	return mongoose.createConnection(db_uri)
 	/*
 	this.connect(db_uri,
 		function(err){
@@ -51,7 +51,7 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.post('/login', function(req, res){ routes.login(mongoose,req,res) });
+app.post('/login', function(req, res){ routes.login(mongoose.connectDB(),req,res) });
 
 app.get('/ping',function(req, res){
 	res.contentType('application/json');

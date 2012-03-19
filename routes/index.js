@@ -10,7 +10,7 @@ exports.index = function(req, res){
 //have to load schemas before
 exports.login = function(db,req,res){
 	//connect to db by extended function
-	db.connectDB();
+	//db.connectDB();
 	
 	//getSchemas
 	var schema = require('../schemas/ScheduleAdjust.js');
