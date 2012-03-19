@@ -22,6 +22,7 @@ exports.login = function(db,req,res){
 	console.log("connect end " + connection.readyState);
 	
 	//find schedule
+	if(connection.readyState == 2){
 	ScheduleAdjust.findOne({id:req.body.login.id},
 		function(err,obj){
 			console.log("find object is " + obj );
@@ -42,5 +43,9 @@ exports.login = function(db,req,res){
 			}
 			
 		});
+	}else{
+		console.log("connect not end");
+		res.render('vote')	
+	}
 	
 }
