@@ -10,20 +10,15 @@ exports.index = function(req, res){
 //have to load schemas before
 exports.login = function(db,req,res){
 	//connect to db by extended function
-	//db.connectDB();
+	console.log("connect start" );
+	db.connectDB();
 	
 	//getSchemas
 	var schema = require('../schemas/ScheduleAdjust.js');
-	//var ScheduleAdjust = schema.ScheduleAdjust(db);
-	schema.ScheduleAdjust(db);
-	console.log("connect start" );
-	var connection = db.connectDB()
-	var ScheduleAdjust = connection.model("ScheduleAdjust");
-	console.log("connect end " + connection.readyState);
+	var ScheduleAdjust = schema.ScheduleAdjust(db);
+	console.log("connect end status " + db.connections[0].readyState);
 	
 	//find schedule
-	if(connection.readyState == 2){
-		console.log("connect ok");
 	ScheduleAdjust.findOne({id:req.body.login.id},
 		function(err,obj){
 			console.log("find object is " + obj );
@@ -44,9 +39,5 @@ exports.login = function(db,req,res){
 			}
 			
 		});
-	}else{
-		console.log("connect not end");
-		res.render('vote')	
-	}
 	
 }
