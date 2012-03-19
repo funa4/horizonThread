@@ -13,36 +13,26 @@ var db_uri = process.env.MONGOHQ_URL || 'mongodb://horizon:dearth@localhost/hori
 var port = process.env.PORT || 3000; //for heroku
 
  //extends connect function
- /*
- mongoose.connectDB = function(){
+ mongoose.connectDB = function(callback){
  	console.log("db connec by " + db_uri);
  	if(this.connections[0].readyState == 2){//connecting now
  		console.log("connecting is alive. ");
+ 		callback();
  	}else{
 		this.connect(db_uri,
 			function(err){
 				if(err){
 					console.log("db connection error on " + db_uri); throw err;
+				}else{
+					callback();
 				}
 			}
 		)
 	}
 }
-*/
-
- mongoose.connect(db_uri,
-			function(err){
-				if(err){
-					console.log("db connection error on " + db_uri); throw err;
-				}else{
-					console.log("db connection ok ! ");
-				}
-			}
-		)
 
 //create server
 var app = module.exports = express.createServer();
-
 
 // Configuration
 app.configure(function(){
