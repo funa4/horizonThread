@@ -23,6 +23,7 @@ exports.login = function(db,req,res){
 	
 	//find schedule
 	if(connection.readyState == 2){
+		console.log("connect ok");
 	ScheduleAdjust.findOne({id:req.body.login.id},
 		function(err,obj){
 			console.log("find object is " + obj );
