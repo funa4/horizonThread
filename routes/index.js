@@ -16,7 +16,6 @@ exports.login = function(db,req,res){
 	//getSchemas
 	var schema = require('../schemas/ScheduleAdjust.js');
 	var ScheduleAdjust = schema.ScheduleAdjust(db);
-	console.log("connect end status " + db.connections[0].readyState);
 	
 	//find schedule
 	ScheduleAdjust.findOne({id:req.body.login.id},
@@ -30,11 +29,9 @@ exports.login = function(db,req,res){
 				schedule.name = req.body.login.name;
 				
 				schedule.save(function(err){
-					db.disconnect();
 					res.render('vote', { title: 'Schedule Voting' , schedule:schedule});				
 				});
 			}else{				
-				db.disconnect();
 				res.render('vote', { title: 'Schedule Voting', schedule:obj})		
 			}
 			
