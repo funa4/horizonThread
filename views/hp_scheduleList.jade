@@ -1,0 +1,20 @@
+table(border=1,width=300).schedule-list
+ thead
+  tr
+   th Date
+   th Voters
+   th Command
+ tbody
+  - if (typeof saObj !== undefined){
+   each sc in saObj.schedules
+    tr
+     td
+      a(href="#",onclick="voteAdd('" + sc._id +"')")= sc.sDate
+     td
+      ul.voting
+       each v in sc.votes
+        li(title=v.comment )= v.name 
+         a(href="#",onclick="voteChange('" + sc._id +"','" + v._id + "')")= v.status
+     td 
+      button(onclick="scheduleDelete('" + sc._id +"')") Delete
+  - }

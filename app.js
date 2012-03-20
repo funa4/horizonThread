@@ -9,7 +9,7 @@ var express = require('express')
   , mongoose = require('mongoose');
 
 //global config variant
-var db_uri = process.env.MONGOLAB_URI || 'mongodb://heroku_app3362615:t0i3pv7kgrvcqvbliigat21pkb@ds029847.mongolab.com:29847/heroku_app3362615'; //'mongodb://horizon:dearth@localhost/horizonThread';
+var db_uri = process.env.MONGOLAB_URI || 'mongodb://horizon:dearth@localhost/horizonThread'; //'mongodb://heroku_app3362615:t0i3pv7kgrvcqvbliigat21pkb@ds029847.mongolab.com:29847/heroku_app3362615'; 
 var port = process.env.PORT || 3000; //for heroku
 
  //extends connect function
@@ -21,7 +21,7 @@ var port = process.env.PORT || 3000; //for heroku
 		this.connect(db_uri,
 			function(err){
 				if(err){
-					console.log("db connection error on " + db_uri); throw err;
+					console.log("db connection error on " + db_uri ); throw err;
 				}
 			}
 		)
@@ -51,8 +51,12 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/', routes.index);
+app.get('/', function(req,res){routes.index(mongoose,req,res)});
 app.post('/login', function(req, res){ routes.login(mongoose,req,res) });
+
+app.post('/schedule',function(req,res){ routes.schedule(mongoose,req,res); });
+app.post('/reloadlist',function(req,res){ routes.reloadList(mongoose,req,res); });
+app.post('/vote',function(req,res){ routes.vote(mongoose,req,res); });
 
 app.get('/ping',function(req, res){
 	res.contentType('application/json');

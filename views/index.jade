@@ -6,6 +6,10 @@ body
 b Schedule Adjust
 
 form#form(action='/login',method='POST')
-  input#id(type='text', name="login[id]" , placeholder='alpha numeric')
   input#name(type='text', name="login[name]", autocomplete='off')
   input(type='submit', value='作成')
+
+<br/><br/>
+- if (typeof msg !== "undefined"){
+span#msg= msg
+- }

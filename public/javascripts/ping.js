@@ -1,5 +1,5 @@
 /**
- * @author 久保 隆宏
+ * @author Takahiro Kubo
  */
 function ping(){
 	$.ajax({

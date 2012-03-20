@@ -1,5 +1,6 @@
 append head
-title="Voting to Schedule"
+title="Schedule Adjust"
+script(type='text/javascript', src='javascripts/voting.js')
 
 body
 b Voting to Schedule
@@ -12,27 +13,26 @@ label Your name :
  input#name(type='text')
 
 <br/><br/>
+- var sa = null;
+- var parentId = "";
+- if (typeof saObj !== "undefined"){
+-  sa = saObj;
+-  parentId = saObj._id;
+- }
 
-table(border=1,width=300)
- thead
-  tr
-   th Date
-   th Voters
-   th Command
- tbody
-  tr
-   td 
-    a(href="#",onclick="deleteDate()") 2012/01/01
-   td kubo(ok)
-   td 
-    button(onclick="voteAdd") Vote!
-    button(onclick="voteCancel") Cancel
+div#pnlScheduleList
       
 <br/><br/>
 p add new date ( maybe also by ajax post ... )
-  
-form#form(action='/recommend',method='POST')
-  input#sDate(type='text', name="schedule[sDate]" , placeholder='yyyyMMdd')
-  input#sTime(type='text', name="schedule[sTime]" , placeholder='hhmmss')
-  input(type='submit', value='日程追加')
-  
+
+div#pnlScheduleAdd.form
+ input#sDate(type='text', placeholder='yyyyMMdd')
+ input#sTime(type='text', placeholder='hhmmss')
+ input#parentId(type='hidden', value=parentId  )
+ button(onclick="scheduleAdd()") 日程追加
+
+<br/><br/>
+- if (typeof msg !== "undefined"){
+span#msg= msg
+- }
+

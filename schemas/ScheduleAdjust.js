@@ -2,7 +2,7 @@
  * @author Takahiro Kubo
  */
 
-exports.ScheduleAdjust = function(mg_connected){
+exports.ScheduleAdjustRegister = function(mg_connected){
 
 var Schema = mg_connected.Schema //,ObjectId = Schema.ObjectId;
 
@@ -29,10 +29,9 @@ var ScheduleAdjust = new Schema({
 });
 
 //create model
-return mg_connected.model('ScheduleAdjust', ScheduleAdjust);
+mg_connected.model('ScheduleAdjust', ScheduleAdjust);
+mg_connected.model('Schedule', Schedule);
+mg_connected.model('Vote', Vote);
 
 }
-
-
-
 
