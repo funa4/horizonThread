@@ -7,14 +7,26 @@ a {
   color: #00B7FF;
 }
 
-.voting{
-	list-style-type:none;
+
+.voter{
+	padding: .7em 5px .7em 5px;
+	border-width: 0;
+	border: 1px solid lavender;
+	background: lightgrey;
 }
 
-.voting li{
-	padding: .7em 5px .7em 5px;
-	display:block;
-	border-width: 0;
-	border: 1px solid #AAA;
-	background: #F9F9F9;
+.voter .a{
+	padding:.5em;
+	background-color:white;
+	width:50%;
+}
+.voter .b{
+	padding:.5em;
+	background-color:white;
+	width:10%;
+}
+.voter .d{
+	text-align:left;
+	vertical-align:top;
+	background-color:white;
 }

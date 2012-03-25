@@ -12,8 +12,8 @@ function reload(){
 	$("#pnlScheduleList").empty();
 	$("#pnlScheduleList").load("/reloadList",{"said":$("#parentId").val()},
 	 function(){
-	 	$("#pnlScheduleList").find("div[data-role=collapsible]").collapsible({refresh:true});	
 	 	$("#pnlScheduleList").find("a[data-role=button]").button();	 	
+	 	$("#pnlScheduleList").find("div[data-role=collapsible]").collapsible({refresh:true});	
 	 }
 	);
 	
