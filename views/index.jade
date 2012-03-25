@@ -1,15 +1,26 @@
 append head
 title="Schedule Adjust"
-script(type='text/javascript', src='javascripts/ping.js')
 
 body
-b Schedule Adjust
+div(id='toppage',data-role='page')
+ div(data-role='header')
+  h1 Schedule Adjust
 
-form#form(action='/login',method='POST')
-  input#name(type='text', name="login[name]", autocomplete='off')
-  input(type='submit', value='作成')
+ div(data-role='content')
+ p 日程のタイトルを入力してください<br/>
+ form#form(action='/login',method='POST',data-ajax="false")
+   input#name(type='text', name="login[name]", autocomplete='off' ,placeholder='例：ｘｘさん送別会など')
+   <br/>
+   えー、入力するのめんどくさい〜という場合以下から適当に選んでください。<br/>
+   select#selName(name="login[tmpname]")
+    option(value="(no title)") (no title)
+    option(value="飲み会") 飲み会
+    option(value="合コン") 合コン
+    option(value="勉強会") 勉強会
+    option(value="歓送迎会") 歓送迎会
+   <br/><br/>
+   input(type='submit', value='作成')
 
-<br/><br/>
 - if (typeof msg !== "undefined"){
-span#msg= msg
+ span#msg= msg
 - }

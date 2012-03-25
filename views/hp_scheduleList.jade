@@ -1,20 +1,35 @@
-table(border=1,width=300).schedule-list
- thead
-  tr
-   th Date
-   th Voters
-   th Command
- tbody
-  - if (typeof saObj !== undefined){
-   each sc in saObj.schedules
-    tr
-     td
-      a(href="#",onclick="voteAdd('" + sc._id +"')")= sc.sDate
-     td
-      ul.voting
-       each v in sc.votes
-        li(title=v.comment )= v.name 
-         a(href="#",onclick="voteChange('" + sc._id +"','" + v._id + "')")= v.status
-     td 
-      button(onclick="scheduleDelete('" + sc._id +"')") Delete
-  - }
+- var weekDay = ["日","月","火","水","木","金","土"]
+
+- if (typeof saObj !== undefined){
+ each sc in saObj.schedules
+  - var dateStr = sc.sDate.substr(0,4) + "/" + sc.sDate.substr(4,2) + "/" + sc.sDate.substr(6,2)
+  - var d = new Date(dateStr)
+  - var displayDate = dateStr + "(" + weekDay[d.getDay()] + ")"
+  div(id= sc._id,data-role="collapsible",area-name=displayDate)
+   h3.dateTitle= displayDate
+    - var vcount = 0.0
+    - for(var i = 0; i < sc.votes.length;i++){
+    -  if(sc.votes[i].status == "◯"){ vcount += 1 }else if(sc.votes[i].status == "△"){ vcount += 0.5 }
+    - }
+    span(style="padding:0.1em 0.5em 0.1em 0.5em;margin:0em 0em 0em 10em",).ui-li-has-count.ui-li-count.ui-btn-up-c.ui-btn-corner-all= vcount + "/" + sc.votes.length 
+   div
+    ul.voting
+     each v in sc.votes
+      li(id= v._id,title=v.comment).voter
+       div.ui-grid-c
+        div.ui-block-a
+         b= v.name
+        div.ui-block-b
+         b= v.status
+        div.ui-block-c
+         a(href="#",data-role="button",onclick="voteChange('" + sc._id +"','" + v._id + "')") 変更
+        div.ui-block-d
+         a(href="#",data-role="button",onclick="voteDelete('" + sc._id +"','" + v._id + "')") 削除
+    
+    div.ui-grid-a
+     div(align="left").ui-block-a
+      input(type="button",onclick="scheduleDelete('" + sc._id +"')",value="日程を削除")
+     div(align="right").ui-block-b
+      input(type="button",data-theme="b",onclick="voteAdd('" + sc._id +"')",value="この日程に参加")
+ 
+- }

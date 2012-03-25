@@ -4,25 +4,9 @@
  */
 
 //Route to home
+
 exports.index = function(db,req, res){
-	var said = req.param("said","")
-	if(said == ""){
-		res.render('index', { title: 'HorizonThread' })	
-	}else{
-		//connect to db
-		db.connectDB()
-			
-		var schema = require('../schemas/ScheduleAdjust.js');
-		schema.ScheduleAdjustRegister(db);
-		var ScheduleAdjust = db.model("ScheduleAdjust")
-		
-		//find schedule
-		ScheduleAdjust.findOne({_id:said},function(err,obj){
-			db.disconnect();
-			res.render('vote', { saObj:obj});	
-		})
-		
-	}
+	res.render('index', { title: 'HorizonThread' })	
 };
 
 //Route for login , get or create ScheduleAdjust
@@ -34,21 +18,42 @@ exports.login = function(db,req,res){
 	schema.ScheduleAdjustRegister(db);
 	var ScheduleAdjust = db.model("ScheduleAdjust")
 	
+	//get parameter
+	var said = req.param("said","")
+	
+	//create filter
+	console.log("id->" + said)
+	var filter;
+	if(said == ""){
+		filter = {name:req.body.login.name};
+	}else{
+		filter = {_id:said};
+	}
+	
 	//find schedule
-	ScheduleAdjust.findOne({name:req.body.login.name},
+	console.log("filter is " + filter );
+	ScheduleAdjust.findOne(filter,
 		function(err,obj){
 			console.log("find object is " + obj );
 			if(obj == null){
 				//create schedule
 				obj = new ScheduleAdjust();
 				obj.name = req.body.login.name;
+				if(obj.name == ""){
+					var date = new Date();
+					obj.name = req.body.login.tmpname + date.toString();
+				}
+				
 				obj.save(function(err){
 					if(err){
 						db.disconnect();
 						res.render('index', {msg:" when schedule adjustment creating , occur error"})												
 					}
 				});
+			}else{
+				obj.schedules.sort(function(a,b){ return parseInt(a.sDate)-parseInt(b.sDate)})
 			}
+
 			db.disconnect();
 			res.render('vote', { saObj:obj});
 		});
@@ -65,6 +70,10 @@ exports.reloadList = function(db,req, res){
 	//find schedule
 	console.log("load data of " + req.param("said",""))
 	ScheduleAdjust.findOne({_id:req.param("said","")},function(err,obj){
+		if(obj !== undefined){
+			obj.schedules.sort(function(a,b){ return parseInt(a.sDate)-parseInt(b.sDate)})			
+		}
+
 		db.disconnect();
 		console.log("load data end " + obj)
 		res.render('hp_scheduleList', { layout:false,saObj:obj});	
@@ -166,6 +175,12 @@ exports.vote = function(db,req, res, actionType){
 						db.disconnect(); res.render('hp_scheduleList', { layout:false,saObj:obj});	
 					});
 					break;
+				case "delete":
+					sc.votes.id(v_id).remove();
+					obj.save(function(err){ 
+						console.log("delete vote " + v_id)
+						db.disconnect(); res.render('hp_scheduleList', { layout:false,saObj:obj});	
+					});
 			}
 		}else{
 			//error handling

@@ -53,6 +53,7 @@ app.configure('production', function(){
 
 app.get('/', function(req,res){routes.index(mongoose,req,res)});
 app.post('/login', function(req, res){ routes.login(mongoose,req,res) });
+app.get('/login', function(req, res){ routes.login(mongoose,req,res) });
 
 app.post('/schedule',function(req,res){ routes.schedule(mongoose,req,res); });
 app.post('/reloadlist',function(req,res){ routes.reloadList(mongoose,req,res); });

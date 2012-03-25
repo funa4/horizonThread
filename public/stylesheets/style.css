@@ -6,3 +6,15 @@ body {
 a {
   color: #00B7FF;
 }
+
+.voting{
+	list-style-type:none;
+}
+
+.voting li{
+	padding: .7em 5px .7em 5px;
+	display:block;
+	border-width: 0;
+	border: 1px solid #AAA;
+	background: #F9F9F9;
+}

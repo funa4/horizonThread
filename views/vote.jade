@@ -3,16 +3,7 @@ title="Schedule Adjust"
 script(type='text/javascript', src='javascripts/voting.js')
 
 body
-b Voting to Schedule
-
-p list of schedule voting and schedule delete is by get method by ajax
-
-<br/>
-
-label Your name :
- input#name(type='text')
-
-<br/><br/>
+//受け取った日程データを変数に保存
 - var sa = null;
 - var parentId = "";
 - if (typeof saObj !== "undefined"){
@@ -20,19 +11,67 @@ label Your name :
 -  parentId = saObj._id;
 - }
 
-div#pnlScheduleList
-      
-<br/><br/>
-p add new date ( maybe also by ajax post ... )
+div(id='toppage',data-role='page')
+ div(data-role='header')
+  h1 Voting to Schedule
 
-div#pnlScheduleAdd.form
- input#sDate(type='text', placeholder='yyyyMMdd')
- input#sTime(type='text', placeholder='hhmmss')
- input#parentId(type='hidden', value=parentId  )
- button(onclick="scheduleAdd()") 日程追加
+ div(data-role='content')
+  h3= sa.name
+  p 名前を入力して都合のつく日に投票します。日程が不足している場合、追加できます。 <br/>
+   label 名前 :
+   input#name(type='text',placeholder='苗字など、短くみんながわかる名前')
 
-<br/><br/>
-- if (typeof msg !== "undefined"){
-span#msg= msg
-- }
+  p 都合のつく日付をタッチしてください<br/>
+  
+  div(data-role="collapsible-set",data-theme="c",data-content-theme="d")#pnlScheduleList   
+  
+  <br/><br/>
+  p 日程を追加する場合はこちら
+  div(data-role="fieldcontain")#pnlScheduleAdd.form.ui-grid-a
+   div.ui-block-a
+    input#sDate(type='text', placeholder='yyyyMMdd')
+   div.ui-block-b
+    input#sTime(type='hidden', placeholder='hhmmss')
+    input#parentId(type='hidden', value=parentId  )
+    button(onclick="scheduleAdd()") 日程追加
+    
+  <br/><br/>
 
+  - if (typeof msg !== "undefined"){
+   span(style="color:red")#msg= msg
+  - }else{ 
+   span(style="color:red")#msg 
+  - }
+
+ div(data-role="footer",class="ui-bar")
+  a(data-role="button", data-icon="email", onclick="sendMail()") みんなに連絡する
+ 
+div#votingbox(data-role="dialog")
+ div(data-role="header")
+  h1#dialogTitle
+ div(data-role="content")
+  fieldset(data-role="controlgroup")
+   legend 予定を選択してください
+    label(for="vName") 名前 :
+    input#vName(type='text')
+    <br/>  
+    label(for="voting-1") ◯：参加OK
+    input#voting-1(type="radio",name="voting",value="◯",checked="checked")
+    label(for="voting-0") ×：参加NG
+    input#voting-0(type="radio",name="voting",value="×")
+    label(for="voting-2") △：びみょう
+    input#voting-2(type="radio",name="voting",value="△")
+    <br/>
+    <br/> 
+    label(for="vComment") コメント :
+    input#vComment(type='text')
+
+    input#sc_id(type="hidden")
+    input#v_id(type="hidden")
+    input#atype(type="hidden")
+    
+    span#msgD
+  a(href="#",data-role="button",onclick="voteExe()") 登録 
+  <br/><br/>
+  a(href="#",data-role="button",data-rel="back") キャンセル 
+    
