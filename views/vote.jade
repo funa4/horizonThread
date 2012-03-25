@@ -29,11 +29,11 @@ div(id='toppage',data-role='page')
   p 日程を追加する場合はこちら
   div(data-role="fieldcontain")#pnlScheduleAdd.form.ui-grid-a
    div.ui-block-a
-    input#sDate(type='text', placeholder='yyyyMMdd')
+    input#sDate(type='text', placeholder='yyyyMMdd',style="width:8em",maxlength="8")
    div.ui-block-b
     input#sTime(type='hidden', placeholder='hhmmss')
     input#parentId(type='hidden', value=parentId  )
-    button(onclick="scheduleAdd()") 日程追加
+    button(data-mini="true",onclick="scheduleAdd()") 日程追加
     
   <br/><br/>
 
@@ -53,7 +53,7 @@ div#votingbox(data-role="dialog")
   fieldset(data-role="controlgroup")
    legend 予定を選択してください
     label(for="vName") 名前 :
-    input#vName(type='text')
+    input#vName(type='text',required)
     <br/>  
     label(for="voting-1") ◯：参加OK
     input#voting-1(type="radio",name="voting",value="◯",checked="checked")
