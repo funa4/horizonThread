@@ -11,7 +11,7 @@
     - for(var i = 0; i < sc.votes.length;i++){
     -  if(sc.votes[i].status == "◯"){ vcount += 1 }else if(sc.votes[i].status == "△"){ vcount += 0.5 }
     - }
-    span(style="padding:0.1em 0.5em 0.1em 0.5em;margin:0em 0em 0em 5em",).ui-li-has-count.ui-li-count.ui-btn-up-c.ui-btn-corner-all= vcount + "/" + sc.votes.length 
+    span(style="padding:0.1em 0.7em 0.1em 0.7em;margin:0em 0em 0em 4em",).ui-li-has-count.ui-li-count.ui-btn-up-c.ui-btn-corner-all= vcount + "/" + sc.votes.length 
    div
      each v in sc.votes
       table(id= v._id).voter

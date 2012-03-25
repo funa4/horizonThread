@@ -16,25 +16,22 @@ div(id='toppage',data-role='page')
   h1 Voting to Schedule
 
  div(data-role='content')
-  h3= sa.name
-  p 名前を入力して都合のつく日に投票します。日程が不足している場合、追加できます。 <br/>
-   label 名前 :
+  h3= sa.name + "  日程調整"
+  p 名前を入力して都合のつく日に投票します。
    input#name(type='text',placeholder='苗字など、短くみんながわかる名前')
-
-  p 都合のつく日付をタッチしてください<br/>
-  
-  div(data-role="collapsible-set")#pnlScheduleList   
-  
-  <br/><br/>
-  p 日程を追加する場合はこちら
-  div(data-role="fieldcontain")#pnlScheduleAdd.form.ui-grid-a
+    
+  p 日程が不足している場合、追加できます。 
+  div#pnlScheduleAdd.form.ui-grid-a
    div.ui-block-a
     input#sDate(type='text', placeholder='yyyyMMdd',style="width:8em",maxlength="8")
    div.ui-block-b
+    button(data-mini="true",onclick="scheduleAdd()") 日程追加
     input#sTime(type='hidden', placeholder='hhmmss')
     input#parentId(type='hidden', value=parentId  )
-    button(data-mini="true",onclick="scheduleAdd()") 日程追加
-    
+  
+  p 現在の日程は以下のとおりです。<br/>
+  div(data-role="collapsible-set")#pnlScheduleList   
+
   <br/><br/>
 
   - if (typeof msg !== "undefined"){
