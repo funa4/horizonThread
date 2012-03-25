@@ -41,7 +41,9 @@ div(id='toppage',data-role='page')
   - }
 
  div(data-role="footer",class="ui-bar")
-  a(data-role="button", data-icon="email", onclick="sendMail()") みんなに連絡する
+  div(data-role="controlgroup",data-type="horizontal")
+   a(data-role="button", data-icon="", onclick="moveMySchedule('email')") みんなに連絡する
+   a(data-role="button", data-icon="", onclick="moveMySchedule()") この予定へのリンク
  
 div#votingbox(data-role="dialog")
  div(data-role="header")

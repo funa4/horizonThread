@@ -20,11 +20,12 @@ exports.login = function(db,req,res){
 	
 	//get parameter
 	var said = req.param("said","")
-	
+	var name = ""
 	//create filter
 	console.log("id->" + said)
 	var filter;
 	if(said == ""){
+		name = req.body.login.name;
 		filter = {name:req.body.login.name};
 	}else{
 		filter = {_id:said};
@@ -38,7 +39,7 @@ exports.login = function(db,req,res){
 			if(obj == null){
 				//create schedule
 				obj = new ScheduleAdjust();
-				obj.name = req.body.login.name;
+				obj.name = name;
 				if(obj.name == ""){
 					var date = new Date();
 					obj.name = req.body.login.tmpname + date.toString();

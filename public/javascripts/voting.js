@@ -112,6 +112,15 @@ function voteExe(){
 	
 }
 
-function sendMail(){
-	location.href = "mailto:?body=スケジュール調整->"+document.location+"?said="+ $("#parentId").val()
+function moveMySchedule(locationType){
+	var lType =""
+	if(arguments.length > 0){
+		lType = locationType
+	}
+	
+	if(lType=="email"){
+		location.href = "mailto:?body=スケジュール調整->"+document.location.pathname+"?said="+ $("#parentId").val()
+	}else{
+		location.href = document.location.pathname+"?said="+ $("#parentId").val()
+	}
 }
