@@ -107,7 +107,7 @@ function voteExe(){
 		
 		setTimeout(function(){
 			$("#"+$("#sc_id").val()).trigger('expand');		
-		},100)
+		},300)
 	}
 	
 }
