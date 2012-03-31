@@ -1,5 +1,6 @@
 append head
 title="Schedule Adjust"
+script(type='text/javascript', src='javascripts/salist.js')
 
 body
 div(id='toppage',data-role='page')
@@ -19,8 +20,18 @@ div(id='toppage',data-role='page')
     option(value="勉強会") 勉強会
     option(value="歓送迎会") 歓送迎会
    <br/><br/>
-   input(type='submit', value='作成')
+   input(type='submit',data-theme="b",value='作成')
 
-- if (typeof msg !== "undefined"){
- span#msg= msg
-- }
+   <br/><br/><br/>
+   登録済みの予定から選ぶ場合はこちらから。
+   table
+    tr
+     td(style="width:70%")
+      select#selName(id="postedList")
+     td
+      input(type='button', value='GO',onclick="jumpToSchedule()")
+
+   <br/><br/>     
+ - if (typeof msg !== "undefined"){
+  span#msg= msg
+ - }

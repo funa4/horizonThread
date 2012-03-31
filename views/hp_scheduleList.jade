@@ -1,6 +1,6 @@
 - var weekDay = ["日","月","火","水","木","金","土"]
 
-- if (typeof saObj !== undefined){
+- if (typeof saObj !== undefined && saObj != null){
  each sc in saObj.schedules
   - var dateStr = sc.sDate.substr(0,4) + "/" + sc.sDate.substr(4,2) + "/" + sc.sDate.substr(6,2)
   - var d = new Date(dateStr)
@@ -21,7 +21,7 @@
         td(align="center").b
          b= v.status
         td(align="center",rowspan="2").c
-         a(href="#",data-role="button",data-mini="true",onclick="voteChange('" + sc._id +"','" + v._id + "')") 変更
+         a(href="#",data-role="button",data-mini="true",onclick="voteSave('" + sc._id +"','" + v._id + "')") 変更
          a(href="#",data-role="button",data-mini="true",onclick="voteDelete('" + sc._id +"','" + v._id + "')") 削除
        tr
         td(colspan="2").d
@@ -31,6 +31,6 @@
      div(align="left").ui-block-a
       input(type="button",onclick="scheduleDelete('" + sc._id +"')",value="日程を削除")
      div(align="right").ui-block-b
-      input(type="button",data-theme="b",onclick="voteAdd('" + sc._id +"')",value="この日程に参加")
+      input(type="button",data-theme="b",onclick="voteSave('" + sc._id +"')",value="この日程に参加")
  
 - }

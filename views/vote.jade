@@ -6,14 +6,17 @@ body
 //受け取った日程データを変数に保存
 - var sa = null;
 - var parentId = "";
+- var parentName = "";
 - if (typeof saObj !== "undefined"){
 -  sa = saObj;
 -  parentId = saObj._id;
+-  parentName = saObj.name;
 - }
 
 div(id='toppage',data-role='page')
  div(data-role='header')
-  h1 Voting to Schedule
+  h1 Voting
+  a(onclick="scAdjustDelete()",data-icon="delete",class="ui-btn-right",data-ajax="false") 日程削除
 
  div(data-role='content')
   h3= sa.name + "  日程調整"
@@ -28,6 +31,7 @@ div(id='toppage',data-role='page')
     button(data-mini="true",onclick="scheduleAdd()") 日程追加
     input#sTime(type='hidden', placeholder='hhmmss')
     input#parentId(type='hidden', value=parentId  )
+    input#parentName(type='hidden', value=parentName  )
   
   p 現在の日程は以下のとおりです。<br/>
   div(data-role="collapsible-set")#pnlScheduleList   
@@ -42,8 +46,7 @@ div(id='toppage',data-role='page')
 
  div(data-role="footer",class="ui-bar")
   div(data-role="controlgroup",data-type="horizontal")
-   a(data-role="button", data-icon="", onclick="moveMySchedule('email')") みんなに連絡する
-   a(data-role="button", data-icon="", onclick="moveMySchedule()") この予定へのリンク
+   a(data-role="button", data-icon="check",onclick="moveMySchedule()") みんなに連絡する
  
 div#votingbox(data-role="dialog")
  div(data-role="header")
@@ -70,7 +73,7 @@ div#votingbox(data-role="dialog")
     input#atype(type="hidden")
     
     span#msgD
-  a(href="#",data-role="button",onclick="voteExe()") 登録 
+  a(href="#",data-role="button",data-theme="b",onclick="voteExe()") 登録 
   <br/><br/>
   a(href="#",data-role="button",data-rel="back") キャンセル 
     

@@ -14,8 +14,9 @@ var port = process.env.PORT || 3000; //for heroku
 
  //extends connect function
  mongoose.connectDB = function(){
- 	console.log("db connec by " + db_uri);
- 	if(this.connections[0].readyState == 2){//connecting now
+ 	console.log("db connect state "+ this.connections[0].readyState + " uri is" + db_uri);
+ 	//refer about mongoose connecting state http://mongoosejs.com/docs/api.html
+ 	if(this.connections[0].readyState == 1 || this.connections[0].readyState == 2){//connecting now
  		console.log("connecting is alive. ");
  	}else{
 		this.connect(db_uri,
@@ -56,13 +57,11 @@ app.post('/login', function(req, res){ routes.login(mongoose,req,res) });
 app.get('/login', function(req, res){ routes.login(mongoose,req,res) });
 
 app.post('/schedule',function(req,res){ routes.schedule(mongoose,req,res); });
+app.get('/scAdjustDelete',function(req,res){ routes.scAdjustDelete(mongoose,req,res); });
+
 app.post('/reloadlist',function(req,res){ routes.reloadList(mongoose,req,res); });
 app.post('/vote',function(req,res){ routes.vote(mongoose,req,res); });
 
-app.get('/ping',function(req, res){
-	res.contentType('application/json');
-	res.send({res:"connected"});
-})
 
 //invoke server
 app.listen(port);

@@ -2,21 +2,30 @@
  * @author Takahiro Kubo
  */
 
-var saObj = null;
-
 $(function(){
-	reload();
+	reload();	
 })
 
 function reload(){
 	$("#pnlScheduleList").empty();
 	$("#pnlScheduleList").load("/reloadList",{"said":$("#parentId").val()},
 	 function(){
+	 	//set mobile style
 	 	$("#pnlScheduleList").find("a[data-role=button]").button();	 	
 	 	$("#pnlScheduleList").find("div[data-role=collapsible]").collapsible({refresh:true});	
+	 	
+	 	//get objid
+	 	if(localStorage.getItem($("#parentId").val()) == null){
+		 	localStorage.setItem($("#parentId").val(),$("#parentName").val()) 		
+	 	}
 	 }
 	);
 	
+}
+
+function scAdjustDelete(){
+ 	localStorage.removeItem($("#parentId").val()) 		
+	location.href = "/scAdjustDelete?said=" + $("#parentId").val()
 }
 
 function scheduleDelete(objid){
@@ -46,11 +55,8 @@ function scheduleAdd(){
 }
 
 
-function voteAdd(scheduleId){
-	votePost(scheduleId,"create");
-}
-function voteChange(scheduleId,voteId){
-	votePost(scheduleId,"update",voteId);
+function voteSave(scheduleId){
+	votePost(scheduleId,"save");
 }
 function voteDelete(scheduleId,voteId){
 	votePost(scheduleId,"delete",voteId);
@@ -112,15 +118,7 @@ function voteExe(){
 	
 }
 
-function moveMySchedule(locationType){
-	var lType =""
-	if(arguments.length > 0){
-		lType = locationType
-	}
-	
-	if(lType=="email"){
-		location.href = "mailto:?body=スケジュール調整->"+document.location.pathname+"?said="+ $("#parentId").val()
-	}else{
-		location.href = document.location.pathname+"?said="+ $("#parentId").val()
-	}
+function moveMySchedule(){
+	var url = "http://" + location.hostname + location.pathname;
+	location.href = "mailto:?body=下記サイトで日程の記入をお願いします%0D%0A"+url+"?said="+ $("#parentId").val()
 }

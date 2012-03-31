@@ -20,44 +20,39 @@ exports.login = function(db,req,res){
 	
 	//get parameter
 	var said = req.param("said","")
-	var name = ""
-	//create filter
-	console.log("id->" + said)
-	var filter;
-	if(said == ""){
-		name = req.body.login.name;
-		filter = {name:req.body.login.name};
+	//console.log("id is " + said );
+	var postObj = null;
+	if(said != ""){
+		ScheduleAdjust.findOne( {_id:said},
+		function(err,obj){
+			if(!err && obj != null){
+				obj.schedules.sort(function(a,b){ return parseInt(a.sDate)-parseInt(b.sDate)})
+				//console.log("find object is " + obj );				
+				res.render('vote', { saObj:obj});
+			}else{
+				res.render('index', {msg:"指定されたスケジュールがありません"})			
+			}
+		});
+	}else if(typeof req.body.login.name !== undefined){
+		postObj = new ScheduleAdjust();
+		if(req.body.login.name != ""){
+			postObj.name = req.body.login.name
+		}else{
+			postObj.name = req.body.login.tmpname;			
+		}
+		//create object
+		postObj.save(function(err){
+			//db.disconnect();
+			if(!err){ 
+				res.redirect("/login?said=" + postObj._id)		//for counter to reload 
+			}else{
+				res.render('index', {msg:"スケジュールの作成に失敗しました"})
+			}
+		});
 	}else{
-		filter = {_id:said};
+		res.render('index', {msg:"必要なパラメーターがないため、処理に失敗しました"})
 	}
 	
-	//find schedule
-	console.log("filter is " + filter );
-	ScheduleAdjust.findOne(filter,
-		function(err,obj){
-			console.log("find object is " + obj );
-			if(obj == null){
-				//create schedule
-				obj = new ScheduleAdjust();
-				obj.name = name;
-				if(obj.name == ""){
-					var date = new Date();
-					obj.name = req.body.login.tmpname + date.toString();
-				}
-				
-				obj.save(function(err){
-					if(err){
-						db.disconnect();
-						res.render('index', {msg:" when schedule adjustment creating , occur error"})												
-					}
-				});
-			}else{
-				obj.schedules.sort(function(a,b){ return parseInt(a.sDate)-parseInt(b.sDate)})
-			}
-
-			db.disconnect();
-			res.render('vote', { saObj:obj});
-		});
 }
 
 exports.reloadList = function(db,req, res){
@@ -75,8 +70,8 @@ exports.reloadList = function(db,req, res){
 			obj.schedules.sort(function(a,b){ return parseInt(a.sDate)-parseInt(b.sDate)})			
 		}
 
-		db.disconnect();
-		console.log("load data end " + obj)
+		//db.disconnect();
+		//console.log("load data end " + obj)
 		res.render('hp_scheduleList', { layout:false,saObj:obj});	
 	})
 };
@@ -106,28 +101,57 @@ exports.schedule = function(db,req, res){
 			//create schedule date
 			switch(actionType){
 				case "create":
-					obj.schedules.push(sc)
-					obj.save(function(err){ 
-						console.log("create schedule " + obj)
-						db.disconnect(); res.render('hp_scheduleList', { layout:false,saObj:obj});	
-					});
+					var isExist = false;
+					for(var i = 0; i < obj.schedules.length;i++){
+						if(obj.schedules[i].sDate == sc.sDate) isExist = true;
+					}
+					if(!isExist){
+						obj.schedules.push(sc)
+						obj.save(function(err){ 
+							//db.disconnect(); 
+							res.render('hp_scheduleList', { layout:false,saObj:obj});	
+						});
+					}else{
+						res.render('hp_scheduleList', { layout:false,saObj:obj});
+					}
 					break;		
 				case "delete":
 					obj.schedules.id(sc_id).remove();
 					obj.save(function(err){ 
 						console.log("delete schedule " + sc_id)
-						db.disconnect(); res.render('hp_scheduleList', { layout:false,saObj:obj});	
+						//db.disconnect();
+						 res.render('hp_scheduleList', { layout:false,saObj:obj});	
 					});
 					break;
 			}
 		}else{
 			//error handling
-			db.disconnect();
+			//db.disconnect();
 			res.end({msg:" when schedule " + actionType + " , occur error"});
 		}
 	})
 
 };
+
+exports.scAdjustDelete = function(db,req, res){
+	//connect to db
+	db.connectDB()
+		
+	var said = req.param("said","");
+
+	var schema = require('../schemas/ScheduleAdjust.js');
+	schema.ScheduleAdjustRegister(db);
+	var ScheduleAdjust = db.model("ScheduleAdjust");
+	
+	ScheduleAdjust.findOne({_id:said},function(err,obj){
+		if(!err){
+			obj.remove();
+		}
+	})	
+	res.redirect('/');		
+
+};
+
 
 exports.vote = function(db,req, res, actionType){
 	//connect to db
@@ -156,36 +180,46 @@ exports.vote = function(db,req, res, actionType){
 		if(!err && obj != null){
 			//get date
 			var sc = obj.schedules.id(sc_id);
+			var vt = sc.votes.id(v_id);
+			if(vt == null){
+				for(var i = 0; i < sc.votes.length;i++){
+					if(sc.votes[i].name == v.name) vt = sc.votes[i]; break;
+				}				
+			}			
 			
 			//create schedule date
 			switch(actionType){
-				case "create":
-					sc.votes.push(v)
-					obj.save(function(err){ 
-						console.log("create vote " + obj.schedules.id[sc_id])
-						db.disconnect(); res.render('hp_scheduleList', { layout:false,saObj:obj});	
-					});
+				case "save":
+					if(vt == null){
+						//console.log("create vote " + v)
+						sc.votes.push(v)
+						obj.save(function(err){ 
+							//db.disconnect();
+							 res.render('hp_scheduleList', { layout:false,saObj:obj});	
+						});					
+					}else{
+						vt.name = v.name;
+						vt.status = v.status;
+						vt.comment = v.comment;
+	
+						//console.log("update vote " + vt)
+						obj.save(function(err){ 
+							//db.disconnect();
+							 res.render('hp_scheduleList', { layout:false,saObj:obj});	
+						});						
+					}
 					break;		
-				case "update":
-					sc.votes.id(v_id).name = v.name;
-					sc.votes.id(v_id).status = v.status;
-					sc.votes.id(v_id).comment = v.comment;
-
-					obj.save(function(err){ 
-						console.log("update vote " + obj.schedules.id(sc_id).votes.id(v_id))
-						db.disconnect(); res.render('hp_scheduleList', { layout:false,saObj:obj});	
-					});
-					break;
 				case "delete":
 					sc.votes.id(v_id).remove();
 					obj.save(function(err){ 
-						console.log("delete vote " + v_id)
-						db.disconnect(); res.render('hp_scheduleList', { layout:false,saObj:obj});	
+						//console.log("delete vote " + v_id)
+						//db.disconnect();
+						 res.render('hp_scheduleList', { layout:false,saObj:obj});	
 					});
 			}
 		}else{
 			//error handling
-			db.disconnect();
+			//db.disconnect();
 			res.end({msg:" when voting " + actionType + " , occur error"});
 		}
 	})	
