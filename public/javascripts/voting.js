@@ -74,7 +74,7 @@ function votePost(scheduleId,exeType,voteId){
 	$("input[type='radio']").checkboxradio({refresh:true}); 
 	
 	//set value
-	$("#dialogTitle").text($("#"+scheduleId).attr("area-name") +" への参加")
+	$("#dialogTitle").text($("#"+scheduleId).attr("area-name") )
 
 	if(voteId != ""){
 	  var name = $("#"+ scheduleId +" #" + voteId + " .vName").text();
