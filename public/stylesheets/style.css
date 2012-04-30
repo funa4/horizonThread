@@ -10,6 +10,7 @@ a {
 
 
 .voter{
+	width:95%;
 	padding: .7em 5px .7em 5px;
 	border-width: 0;
 	border: 1px solid lavender;
@@ -19,12 +20,16 @@ a {
 .voter .a{
 	padding:.5em;
 	background-color:white;
-	width:50%;
+	width:70%;
 }
 .voter .b{
 	padding:.5em;
 	background-color:white;
 	width:10%;
+}
+
+.voter .c{
+	width:15%;
 }
 .voter .d{
 	text-align:left;

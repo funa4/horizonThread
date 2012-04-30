@@ -24,18 +24,22 @@ function reload(){
 }
 
 function scAdjustDelete(){
- 	localStorage.removeItem($("#parentId").val()) 		
-	location.href = "/scAdjustDelete?said=" + $("#parentId").val()
+	if(window.confirm(" このスケジュールを削除します。よろしいですか？ ")){
+  	 localStorage.removeItem($("#parentId").val()) 		
+	 location.href = "/scAdjustDelete?said=" + $("#parentId").val()
+	}
 }
 
 function scheduleDelete(objid){
-	var sc = {"schedule":
+	if(window.confirm(" 日付を削除します。よろしいですか？ ")){
+	 var sc = {"schedule":
 				{	"id":objid,
 					"parentId":$("#parentId").val()
 				},
 				"aType":"delete"
 			}
-	$("#pnlScheduleList").load("/schedule",sc,reload);	
+	 $("#pnlScheduleList").load("/schedule",sc,reload);	
+    }
 }
 
 function scheduleAdd(){
@@ -55,18 +59,15 @@ function scheduleAdd(){
 }
 
 
-function voteSave(scheduleId){
-	votePost(scheduleId,"save");
+function voteSave(scheduleId,voteId){
+	votePost(scheduleId,"save",voteId);
 }
+
 function voteDelete(scheduleId,voteId){
 	votePost(scheduleId,"delete",voteId);
 }
 
 function votePost(scheduleId,exeType,voteId){
-	var vId = ""
-	if(arguments.length > 2){
-		vId = voteId
-	}
 
 	//initialize dialg control 
 	$("fieldset[data-role='controlgroup']").controlgroup({refresh:true}); 
@@ -74,9 +75,16 @@ function votePost(scheduleId,exeType,voteId){
 	
 	//set value
 	$("#dialogTitle").text($("#"+scheduleId).attr("area-name") +" への参加")
-	$("#vName").val( $("#name").val() );
+
+	if(voteId != ""){
+	  var name = $("#"+ scheduleId +" #" + voteId + " .vName").text();
+	  $("#vName").val( name );	
+	}else{
+	  $("#vName").val( $("#name").val() );		
+	}
+	
 	$("#sc_id").val( scheduleId );
-	$("#v_id").val( vId );
+	$("#v_id").val( voteId );
 	$("#atype").val( exeType );
 
 	if(exeType != "delete"){

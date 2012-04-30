@@ -13,24 +13,25 @@
     - }
     span(style="padding:0.1em 0.7em 0.1em 0.7em;margin:0em 0em 0em 4em",).ui-li-has-count.ui-li-count.ui-btn-up-c.ui-btn-corner-all= vcount + "/" + sc.votes.length 
    div
-     each v in sc.votes
-      table(id= v._id).voter
-       tr
-        td.a
-         b= v.name
-        td(align="center").b
-         b= v.status
-        td(align="center",rowspan="2").c
-         a(href="#",data-role="button",data-mini="true",onclick="voteSave('" + sc._id +"','" + v._id + "')") 変更
-         a(href="#",data-role="button",data-mini="true",onclick="voteDelete('" + sc._id +"','" + v._id + "')") 削除
-       tr
-        td(colspan="2").d
-         span= v.comment
-     <br/>
     div.ui-grid-a
-     div(align="left").ui-block-a
-      input(type="button",onclick="scheduleDelete('" + sc._id +"')",value="日程を削除")
-     div(align="right").ui-block-b
-      input(type="button",data-theme="b",onclick="voteSave('" + sc._id +"')",value="この日程に参加")
+     div.ui-block-a
+      input(type="button",data-theme="b",onclick="voteSave('" + sc._id +"','')",value="この日程に参加")
+     div.ui-block-b
+      input(type="button",onclick="scheduleDelete('" + sc._id +"')",value="日程を削除") 
+    each v in sc.votes
+     table(id= v._id).voter
+      tr
+       td.a
+        b.vName= v.name
+       td(align="center").b
+        b= v.status
+       td(align="center",rowspan="2").c
+        a(href="#",data-role="button",data-mini="true",onclick="voteSave('" + sc._id +"','" + v._id + "')") 変更
+        a(href="#",data-role="button",data-mini="true",onclick="voteDelete('" + sc._id +"','" + v._id + "')") 削除
+      tr
+       td(colspan="2").d
+        span= v.comment
+    <br/>
+     
  
 - }
